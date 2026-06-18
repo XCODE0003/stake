@@ -27,3 +27,11 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
+/database/*.sqlite
+# Local artifacts (screenshots, frontend build zip, browser-tool output)
+/stake-frontend-dist.zip
+/spa-*.png
+/dashboard-*.png
+/filament-tickets.png
+/.playwright-mcp
+/frontend/.playwright-mcp

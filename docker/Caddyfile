@@ -1,0 +1,13 @@
+{
+	frankenphp
+	order php_server before file_server
+}
+
+# SERVER_NAME defaults to :80 (HTTP, any host — works via IP immediately).
+# Set SERVER_NAME=api.stakeaffilates12.com in the environment to enable
+# automatic HTTPS (Let's Encrypt) once DNS points at the server.
+{$SERVER_NAME::80} {
+	root * /app/public
+	encode zstd gzip
+	php_server
+}
