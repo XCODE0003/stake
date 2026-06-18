@@ -1,0 +1,15 @@
+- generic [ref=e36]:
+  - link "Stake" [ref=e37] [cursor=pointer]:
+    - /url: /
+    - img "Stake" [ref=e38]
+  - generic [ref=e39]:
+    - heading "Verify your email" [level=1] [ref=e40]
+    - paragraph [ref=e41]: Enter the 6-digit code we sent to your email
+  - generic [ref=e42]:
+    - paragraph [ref=e43]: We sent a code to spa.user1@example.com
+    - generic [ref=e44]:
+      - textbox "------" [ref=e45]
+      - button "Verify" [disabled]
+    - generic [ref=e46]:
+      - button "Resend code" [ref=e47]
+      - button "Log out" [ref=e48]

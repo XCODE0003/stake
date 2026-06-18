@@ -1,0 +1,26 @@
+[  490637ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:8099/settings/profile:0
+[  490651ms] HttpNetworkError: Network error (http://127.0.0.1:8099/settings/profile)
+    at xhr.onerror (http://[::1]:5174/node_modules/.vite/deps/@inertiajs_vue3.js?v=9c3757a1:4089:31)
+[  490651ms] HttpNetworkError: Network error (http://127.0.0.1:8099/settings/profile)
+    at xhr.onerror (http://[::1]:5174/node_modules/.vite/deps/@inertiajs_vue3.js?v=9c3757a1:4089:31)
+[  490803ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:8099/settings/profile:0
+[  490804ms] HttpNetworkError: Network error (http://127.0.0.1:8099/settings/profile)
+    at xhr.onerror (http://[::1]:5174/node_modules/.vite/deps/@inertiajs_vue3.js?v=9c3757a1:4089:31)
+[  492563ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:8099/settings/profile:0
+[  492563ms] HttpNetworkError: Network error (http://127.0.0.1:8099/settings/profile)
+    at xhr.onerror (http://[::1]:5174/node_modules/.vite/deps/@inertiajs_vue3.js?v=9c3757a1:4089:31)
+[  492563ms] HttpNetworkError: Network error (http://127.0.0.1:8099/settings/profile)
+    at xhr.onerror (http://[::1]:5174/node_modules/.vite/deps/@inertiajs_vue3.js?v=9c3757a1:4089:31)
+[  492760ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:8099/settings/profile:0
+[  492760ms] HttpNetworkError: Network error (http://127.0.0.1:8099/settings/profile)
+    at xhr.onerror (http://[::1]:5174/node_modules/.vite/deps/@inertiajs_vue3.js?v=9c3757a1:4089:31)
+[  504033ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:8099/settings/profile:0
+[  504094ms] HttpNetworkError: Network error (http://127.0.0.1:8099/settings/profile)
+    at xhr.onerror (http://[::1]:5174/node_modules/.vite/deps/@inertiajs_vue3.js?v=9c3757a1:4089:31)
+[  504094ms] HttpNetworkError: Network error (http://127.0.0.1:8099/settings/profile)
+    at xhr.onerror (http://[::1]:5174/node_modules/.vite/deps/@inertiajs_vue3.js?v=9c3757a1:4089:31)
+[  507194ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:8099/settings/profile:0
+[  507194ms] HttpNetworkError: Network error (http://127.0.0.1:8099/settings/profile)
+    at xhr.onerror (http://[::1]:5174/node_modules/.vite/deps/@inertiajs_vue3.js?v=9c3757a1:4089:31)
+[  507194ms] HttpNetworkError: Network error (http://127.0.0.1:8099/settings/profile)
+    at xhr.onerror (http://[::1]:5174/node_modules/.vite/deps/@inertiajs_vue3.js?v=9c3757a1:4089:31)

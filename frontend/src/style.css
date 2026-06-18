@@ -1,0 +1,37 @@
+@import 'tailwindcss';
+
+/* Stake dark design system. */
+@theme {
+    --color-background: #0f212e;
+    --color-foreground: #f7fafc;
+    --color-card: #1a2e39;
+    --color-surface-high: #213743;
+    --color-sidebar: #13232d;
+    --color-muted: #9fbed0;
+    --color-border: #2f4553;
+    --color-input-border: #395565;
+    --color-sunken: #00000052;
+    --color-primary: #1475e1;
+    --color-primary-hover: #105eb4;
+    --color-stake-green: #00e701;
+    --color-turquoise: #40c8d0;
+    --color-destructive: #ff8391;
+
+    --font-sans:
+        proxima-nova, ui-sans-serif, -apple-system, system-ui, sans-serif,
+        'Apple Color Emoji', 'Segoe UI Emoji';
+}
+
+@layer base {
+    html,
+    body {
+        background-color: var(--color-background);
+        color: var(--color-foreground);
+        font-family: var(--font-sans);
+    }
+
+    body {
+        margin: 0;
+        min-height: 100svh;
+    }
+}
