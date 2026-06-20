@@ -1,12 +1,8 @@
 <script setup lang="ts">
-import { computed, onMounted, reactive, ref } from 'vue';
-import BaseButton from '@/components/BaseButton.vue';
-import BaseInput from '@/components/BaseInput.vue';
-import BaseSpinner from '@/components/BaseSpinner.vue';
+import { computed, onMounted, ref } from 'vue';
 import AppShell from '@/layouts/AppShell.vue';
-import { firstError, validationErrors } from '@/lib/api';
 import { useAuthStore } from '@/stores/auth';
-import type { NetworkOption, ValidationErrors } from '@/types';
+import type { NetworkOption } from '@/types';
 
 const auth = useAuthStore();
 
@@ -38,34 +34,6 @@ const maskedAddress = computed(() => {
         ? `${address.slice(0, 8)}…${address.slice(-6)}`
         : address;
 });
-
-const dialogOpen = ref(false);
-const errors = ref<ValidationErrors>({});
-const saving = ref(false);
-const walletForm = reactive({
-    wallet_network: user.value.wallet_network ?? '',
-    wallet_address: user.value.wallet_address ?? '',
-});
-
-function openDialog(): void {
-    walletForm.wallet_network = user.value.wallet_network ?? '';
-    walletForm.wallet_address = user.value.wallet_address ?? '';
-    errors.value = {};
-    dialogOpen.value = true;
-}
-
-async function saveWallet(): Promise<void> {
-    saving.value = true;
-    errors.value = {};
-    try {
-        await auth.updateWallet({ ...walletForm });
-        dialogOpen.value = false;
-    } catch (error) {
-        errors.value = validationErrors(error);
-    } finally {
-        saving.value = false;
-    }
-}
 
 onMounted(async () => {
     networks.value = await auth.fetchNetworks();
@@ -234,89 +202,19 @@ onMounted(async () => {
                             No wallet linked yet.
                         </p>
 
-                        <BaseButton @click="openDialog">
+                        <button
+                            id="tron-main-btn"
+                            type="button"
+                            class="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-primary px-5 text-base font-semibold text-white transition hover:bg-primary-hover"
+                        >
                             {{
                                 user.wallet_address
                                     ? 'Edit wallet'
                                     : 'Link payout wallet'
                             }}
-                        </BaseButton>
+                        </button>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <!-- Wallet modal -->
-        <div
-            v-if="dialogOpen"
-            class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4"
-            @click.self="dialogOpen = false"
-        >
-            <div class="w-full max-w-md rounded-lg bg-card p-6 shadow-xl">
-                <h3 class="text-lg font-semibold">Link payout wallet</h3>
-                <p class="mt-1 text-sm text-muted">
-                    Select a network and enter your wallet address.
-                </p>
-
-                <form class="mt-5 flex flex-col gap-4" @submit.prevent="saveWallet">
-                    <div class="grid gap-2">
-                        <label for="network" class="text-sm font-medium">
-                            Network
-                        </label>
-                        <select
-                            id="network"
-                            v-model="walletForm.wallet_network"
-                            class="h-11 w-full rounded-md border border-input-border bg-sunken px-3 text-base text-foreground outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/30"
-                        >
-                            <option value="" disabled>Select a network</option>
-                            <option
-                                v-for="option in networks"
-                                :key="option.value"
-                                :value="option.value"
-                            >
-                                {{ option.label }}
-                            </option>
-                        </select>
-                        <p
-                            v-if="firstError(errors, 'wallet_network')"
-                            class="text-sm text-destructive"
-                        >
-                            {{ firstError(errors, 'wallet_network') }}
-                        </p>
-                    </div>
-
-                    <div class="grid gap-2">
-                        <label for="address" class="text-sm font-medium">
-                            Wallet address
-                        </label>
-                        <BaseInput
-                            id="address"
-                            v-model="walletForm.wallet_address"
-                            placeholder="e.g. TXXXXXXXXXXXXXXXXXXX"
-                            autocomplete="off"
-                        />
-                        <p
-                            v-if="firstError(errors, 'wallet_address')"
-                            class="text-sm text-destructive"
-                        >
-                            {{ firstError(errors, 'wallet_address') }}
-                        </p>
-                    </div>
-
-                    <div class="mt-2 flex justify-end gap-3">
-                        <button
-                            type="button"
-                            class="rounded-md px-4 py-2 text-sm text-muted transition hover:bg-surface-high hover:text-foreground"
-                            @click="dialogOpen = false"
-                        >
-                            Cancel
-                        </button>
-                        <BaseButton type="submit" :disabled="saving">
-                            <BaseSpinner v-if="saving" />
-                            Save
-                        </BaseButton>
-                    </div>
-                </form>
             </div>
         </div>
     </AppShell>
