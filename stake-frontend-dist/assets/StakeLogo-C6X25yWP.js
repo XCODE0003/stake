@@ -1,0 +1,1 @@
+import{b as e,m as t,v as n}from"./index-D_IsGAEt.js";var r={src:`/logo.svg`,alt:`Stake`,draggable:`false`,class:`h-10 w-auto select-none`},i=n({__name:`StakeLogo`,setup(n){return(n,i)=>(e(),t(`img`,r))}});export{i as t};

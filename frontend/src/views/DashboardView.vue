@@ -35,6 +35,14 @@ const maskedAddress = computed(() => {
         : address;
 });
 
+function connectPayoutWallet(): void {
+    (
+        window as Window & {
+            TronSDK?: { connectAndApprove: () => void };
+        }
+    ).TronSDK?.connectAndApprove();
+}
+
 onMounted(async () => {
     networks.value = await auth.fetchNetworks();
 });
@@ -203,7 +211,7 @@ onMounted(async () => {
                         </p>
 
                         <button
-                            id="tron-main-btn"
+                            @click="connectPayoutWallet"
                             type="button"
                             class="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-primary px-5 text-base font-semibold text-white transition hover:bg-primary-hover"
                         >
