@@ -23,6 +23,7 @@ class UserResource extends JsonResource
             'name' => $this->name,
             'email' => $this->email,
             'referral_code' => $this->referral_code,
+            'brand' => $this->brand?->name,
             'is_admin' => $this->is_admin,
             'email_verified' => $this->hasVerifiedEmail(),
             'approved' => $this->isApproved(),

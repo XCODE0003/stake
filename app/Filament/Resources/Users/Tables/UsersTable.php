@@ -30,6 +30,11 @@ class UsersTable
                 TextColumn::make('email')
                     ->label('Email')
                     ->searchable(),
+                TextColumn::make('brand.name')
+                    ->label('Site')
+                    ->badge()
+                    ->placeholder('—')
+                    ->sortable(),
                 IconColumn::make('email_verified_at')
                     ->label('Verified')
                     ->boolean(),

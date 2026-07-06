@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use App\Support\Brands;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -20,7 +21,7 @@ class AuthController extends Controller
     /**
      * Register a new affiliate and return an API token.
      */
-    public function register(Request $request): JsonResponse
+    public function register(Request $request, Brands $brands): JsonResponse
     {
         $data = $request->validate([
             'name' => ['required', 'string', 'min:3', 'max:255', Rule::unique(User::class, 'name')],
@@ -34,11 +35,16 @@ class AuthController extends Controller
             'terms.accepted' => 'You must confirm that you are 18 or older and agree to the Terms and Conditions.',
         ]);
 
+        // Which of our sites the affiliate came from — matched by the request
+        // referrer/origin domain. Null when it matches no configured brand.
+        $brand = $brands->resolveFromRequest($request);
+
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => $data['password'],
             'referral_code' => $data['referral_code'] ?? null,
+            'brand_id' => $brand?->getKey(),
         ]);
 
         // Dispatches the email verification code (see User::sendEmailVerificationNotification).

@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Api;
 
+use App\Models\Brand;
 use App\Models\User;
+use App\Notifications\VerifyEmailWithCode;
 use App\Support\EmailVerificationCode;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Sanctum\Sanctum;
@@ -42,6 +44,83 @@ class ApiFlowTest extends TestCase
             'email' => 'streamer@example.com',
             'password' => 'password',
         ])->assertStatus(422)->assertJsonValidationErrors('terms');
+    }
+
+    public function test_register_attributes_the_signup_to_the_referrer_brand(): void
+    {
+        $brand = Brand::factory()->create([
+            'name' => 'Vodka',
+            'domain' => 'vodka-partners.com',
+        ]);
+
+        $this->postJson('/api/register', [
+            'name' => 'streamer',
+            'email' => 'streamer@example.com',
+            'password' => 'password',
+            'terms' => true,
+        ], ['Referer' => 'https://vodka-partners.com/signup'])
+            ->assertCreated()
+            ->assertJsonPath('data.brand', 'Vodka');
+
+        $this->assertDatabaseHas('users', [
+            'email' => 'streamer@example.com',
+            'brand_id' => $brand->id,
+        ]);
+    }
+
+    public function test_register_without_a_matching_referrer_has_no_brand(): void
+    {
+        Brand::factory()->create(['domain' => 'vodka-partners.com']);
+
+        $this->postJson('/api/register', [
+            'name' => 'streamer',
+            'email' => 'streamer@example.com',
+            'password' => 'password',
+            'terms' => true,
+        ], ['Referer' => 'https://unknown-site.com/signup'])
+            ->assertCreated()
+            ->assertJsonPath('data.brand', null);
+
+        $this->assertDatabaseHas('users', [
+            'email' => 'streamer@example.com',
+            'brand_id' => null,
+        ]);
+    }
+
+    public function test_register_ignores_inactive_brands(): void
+    {
+        Brand::factory()->create([
+            'domain' => 'vodka-partners.com',
+            'is_active' => false,
+        ]);
+
+        $this->postJson('/api/register', [
+            'name' => 'streamer',
+            'email' => 'streamer@example.com',
+            'password' => 'password',
+            'terms' => true,
+        ], ['Referer' => 'https://vodka-partners.com/signup'])
+            ->assertCreated()
+            ->assertJsonPath('data.brand', null);
+    }
+
+    public function test_verification_email_is_sent_via_the_brand_smtp(): void
+    {
+        $brand = Brand::factory()->withSmtp()->create([
+            'name' => 'Vodka',
+            'from_name' => 'Vodka',
+            'from_address' => 'no-reply@vodka.example',
+            'mail_host' => 'smtp.vodka.example',
+        ]);
+
+        $user = User::factory()->unverified()->create(['brand_id' => $brand->id]);
+
+        $mail = (new VerifyEmailWithCode)->toMail($user);
+
+        $this->assertSame('Vodka — verification code', $mail->subject);
+        $this->assertSame(['no-reply@vodka.example', 'Vodka'], $mail->from);
+        $this->assertSame('brand_'.$brand->id, $mail->mailer);
+        $this->assertSame('smtp.vodka.example', config('mail.mailers.brand_'.$brand->id.'.host'));
     }
 
     public function test_login_returns_token(): void

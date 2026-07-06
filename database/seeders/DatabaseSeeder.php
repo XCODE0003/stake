@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
+use App\Models\Brand;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -17,6 +18,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // Our sites. Domain + SMTP are filled in per site from the admin panel;
+        // seeded here (without a domain, so they match nothing yet) as a
+        // starting point for managers.
+        foreach (['Stake', 'Vodka', 'Dragon Money', 'Qzino', '1win', 'Zooma'] as $name) {
+            Brand::updateOrCreate(
+                ['name' => $name],
+                ['from_name' => $name, 'is_active' => true],
+            );
+        }
+
         // Manager / admin — can log in to /admin and approve accounts.
         User::updateOrCreate(
             ['email' => 'admin@stake.test'],

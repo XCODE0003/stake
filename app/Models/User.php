@@ -12,6 +12,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -26,6 +27,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property string $name
  * @property string $email
  * @property string|null $referral_code
+ * @property int|null $brand_id
  * @property Carbon|null $email_verified_at
  * @property string $password
  * @property bool $is_admin
@@ -49,6 +51,7 @@ use Laravel\Sanctum\HasApiTokens;
     'name',
     'email',
     'referral_code',
+    'brand_id',
     'password',
     'is_admin',
     'approved_at',
@@ -112,6 +115,16 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail, Pas
     public function sendEmailVerificationNotification(): void
     {
         $this->notify(new VerifyEmailWithCode);
+    }
+
+    /**
+     * The site/brand this affiliate registered on.
+     *
+     * @return BelongsTo<Brand, $this>
+     */
+    public function brand(): BelongsTo
+    {
+        return $this->belongsTo(Brand::class);
     }
 
     /**
