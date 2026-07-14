@@ -1,6 +1,16 @@
 @import 'tailwindcss';
 
-/* Stake dark design system. */
+/*
+ * Multi-brand design system.
+ *
+ * `@theme` defines the design tokens (and generates the Tailwind utilities such
+ * as `bg-background`, `text-muted`, `rounded-lg`, ...). Its values double as the
+ * default design — Stake. Every other brand re-declares the same custom
+ * properties under `html[data-theme='<key>']`; because the utilities reference
+ * the tokens via `var(--*)`, switching the `data-theme` attribute re-skins the
+ * whole app — colors, corner radii, control sizing, fonts — with no markup
+ * changes. The attribute is set at boot from the domain (see `src/themes/`).
+ */
 @theme {
     --color-background: #0f212e;
     --color-foreground: #f7fafc;
@@ -20,6 +30,233 @@
     --font-sans:
         proxima-nova, ui-sans-serif, -apple-system, system-ui, sans-serif,
         'Apple Color Emoji', 'Segoe UI Emoji';
+}
+
+/*
+ * Brand shape tokens (Stake defaults). These are not Tailwind namespaces, so
+ * they generate no utilities — components reference them via arbitrary values
+ * (`h-[var(--control-h)]`) or the component classes below.
+ */
+:root {
+    --control-h: 2.75rem; /* input / button height */
+    --control-px: 0.75rem; /* input horizontal padding */
+    --card-border: transparent; /* surface outline */
+    --btn-primary-bg: var(--color-primary);
+    --btn-primary-bg-hover: var(--color-primary-hover);
+    --btn-primary-fg: #ffffff; /* primary button text (dark on light brands) */
+    --btn-radius: var(--radius-md); /* primary button corner (pill on some brands) */
+}
+
+/* Vodka — palette + shape derived from vodka.bet (see resources/css/vodka.css). */
+html[data-theme='vodka'] {
+    --color-background: #0c111c;
+    --color-foreground: #ffffff;
+    --color-card: #121a29;
+    --color-surface-high: #232c43;
+    --color-sidebar: #0e1422;
+    --color-muted: #677a9d;
+    --color-border: #273140;
+    --color-input-border: #2b3a57;
+    --color-sunken: #0d1422;
+    --color-primary: #2b90fe;
+    --color-primary-hover: #1e6cfd;
+    --color-stake-green: #2dda6f;
+    --color-turquoise: #40c8d0;
+    --color-destructive: #e74c3c;
+
+    /* Rounder corners across the whole UI. */
+    --radius-md: 0.7rem; /* inputs, buttons */
+    --radius-lg: 1rem; /* cards, badges */
+    --radius-xl: 1.15rem;
+    --radius-2xl: 1.4rem;
+
+    /* Taller, roomier controls. */
+    --control-h: 3.25rem;
+    --control-px: 1rem;
+    --card-border: #243150;
+
+    /* Brand gradient button. */
+    --btn-primary-bg: linear-gradient(
+        90deg,
+        #2563f5 0%,
+        #2b90fe 55%,
+        #37c4f1 100%
+    );
+    --btn-primary-bg-hover: linear-gradient(
+        90deg,
+        #2f6dff 0%,
+        #3aa0ff 55%,
+        #50d2ff 100%
+    );
+
+    --font-sans:
+        'Inter', ui-sans-serif, -apple-system, system-ui, sans-serif,
+        'Apple Color Emoji', 'Segoe UI Emoji';
+}
+
+/* Dragon Money — neutral charcoal + amber-orange accent (see drgn54.casino). */
+html[data-theme='dragon'] {
+    --color-background: #14151c;
+    --color-foreground: #ffffff;
+    --color-card: #23242e;
+    --color-surface-high: #30313d;
+    --color-sidebar: #1a1b23;
+    --color-muted: #8b8c99;
+    --color-border: #2f3039;
+    --color-input-border: #3a3b47;
+    --color-sunken: #383944;
+    --color-primary: #f5a623;
+    --color-primary-hover: #e0941a;
+    --color-stake-green: #9bc63f;
+    --color-turquoise: #40c8d0;
+    --color-destructive: #ff6b6b;
+
+    /* Slightly rounded corners. */
+    --radius-md: 0.55rem;
+    --radius-lg: 0.85rem;
+    --radius-xl: 1rem;
+    --radius-2xl: 1.2rem;
+
+    /* Taller, roomier controls. */
+    --control-h: 3.25rem;
+    --control-px: 1rem;
+    --card-border: #2f3039;
+
+    /* Flat orange button with dark label. */
+    --btn-primary-bg: #f5a623;
+    --btn-primary-bg-hover: #e0941a;
+    --btn-primary-fg: #1a1205;
+
+    --font-sans:
+        'Inter', ui-sans-serif, -apple-system, system-ui, sans-serif,
+        'Apple Color Emoji', 'Segoe UI Emoji';
+}
+
+/* Qzino — near-black + lime accent, pill button (see qzino.css). */
+html[data-theme='qzino'] {
+    --color-background: #111014;
+    --color-foreground: #ffffff;
+    --color-card: #1b1a1f;
+    --color-surface-high: #2c2a32;
+    --color-sidebar: #161519;
+    --color-muted: #a7b5ca;
+    --color-border: #2a2930;
+    --color-input-border: #34323c;
+    --color-sunken: #2a282f;
+    --color-primary: #bceb39;
+    --color-primary-hover: #a9d92b;
+    --color-stake-green: #6adf4d;
+    --color-turquoise: #40c8d0;
+    --color-destructive: #f73c3c;
+
+    /* Soft rounded surfaces. */
+    --radius-md: 0.85rem;
+    --radius-lg: 1.1rem;
+    --radius-xl: 1.3rem;
+    --radius-2xl: 1.6rem;
+
+    /* Taller, roomier controls. */
+    --control-h: 3.25rem;
+    --control-px: 1rem;
+    --card-border: #26252c;
+
+    /* Lime gradient pill with dark label. */
+    --btn-primary-bg: linear-gradient(180deg, #cbf24f 0%, #a6dd28 100%);
+    --btn-primary-bg-hover: linear-gradient(180deg, #d4f86a 0%, #b2e833 100%);
+    --btn-primary-fg: #15240a;
+    --btn-radius: 9999px;
+
+    --font-sans:
+        'Inter', ui-sans-serif, -apple-system, system-ui, sans-serif,
+        'Apple Color Emoji', 'Segoe UI Emoji';
+}
+
+/* 1win — near-black + green CTA, blue accent for links (see 1win.com). */
+html[data-theme='1win'] {
+    --color-background: #0d0d0f;
+    --color-foreground: #ffffff;
+    --color-card: #1a1a1e;
+    --color-surface-high: #26262c;
+    --color-sidebar: #141416;
+    --color-muted: #9a9aa6;
+    --color-border: #262630;
+    --color-input-border: #31313a;
+    --color-sunken: #1f1f24;
+    --color-primary: #2f6bff; /* blue accent: links, tabs, focus */
+    --color-primary-hover: #1f56e0;
+    --color-stake-green: #4caf50;
+    --color-turquoise: #40c8d0;
+    --color-destructive: #f5455c;
+
+    /* Rounded surfaces. */
+    --radius-md: 0.85rem;
+    --radius-lg: 1.05rem;
+    --radius-xl: 1.25rem;
+    --radius-2xl: 1.5rem;
+
+    /* Taller, roomier controls. */
+    --control-h: 3.25rem;
+    --control-px: 1rem;
+    --card-border: #26262e;
+
+    /* Green CTA button (1win primary) with white label. */
+    --btn-primary-bg: linear-gradient(180deg, #54bd59 0%, #44a84a 100%);
+    --btn-primary-bg-hover: linear-gradient(180deg, #5fc863 0%, #4cb152 100%);
+    --btn-primary-fg: #ffffff;
+
+    --font-sans:
+        'Inter', ui-sans-serif, -apple-system, system-ui, sans-serif,
+        'Apple Color Emoji', 'Segoe UI Emoji';
+}
+
+/* Zooma — dark violet + purple CTA, green highlights (see zooma casino). */
+html[data-theme='zooma'] {
+    --color-background: #191130;
+    --color-foreground: #ffffff;
+    --color-card: #241a3e;
+    --color-surface-high: #2e2350;
+    --color-sidebar: #140e26;
+    --color-muted: #a99fc4;
+    --color-border: #312750;
+    --color-input-border: #3a2f5e;
+    --color-sunken: #1f1736;
+    --color-primary: #7c43e8;
+    --color-primary-hover: #6a34d0;
+    --color-stake-green: #4fc95a;
+    --color-turquoise: #40c8d0;
+    --color-destructive: #f5455c;
+
+    /* Rounded surfaces. */
+    --radius-md: 0.7rem;
+    --radius-lg: 0.95rem;
+    --radius-xl: 1.15rem;
+    --radius-2xl: 1.4rem;
+
+    /* Taller, roomier controls. */
+    --control-h: 3.25rem;
+    --control-px: 1rem;
+    --card-border: #312750;
+
+    /* Purple gradient button with white label. */
+    --btn-primary-bg: linear-gradient(180deg, #8a55f0 0%, #7434e0 100%);
+    --btn-primary-bg-hover: linear-gradient(180deg, #9663f4 0%, #7c43e8 100%);
+    --btn-primary-fg: #ffffff;
+
+    --font-sans:
+        'Inter', ui-sans-serif, -apple-system, system-ui, sans-serif,
+        'Apple Color Emoji', 'Segoe UI Emoji';
+}
+
+@layer components {
+    /* Primary action button surface: solid, gradient, or pill per brand. */
+    .btn-primary {
+        background: var(--btn-primary-bg);
+        color: var(--btn-primary-fg);
+        border-radius: var(--btn-radius);
+    }
+    .btn-primary:not(:disabled):hover {
+        background: var(--btn-primary-bg-hover);
+    }
 }
 
 @layer base {

@@ -1,0 +1,23 @@
+vite v8.0.16 building client environment for production...
+[2Ktransforming...✓ 126 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                0.47 kB │ gzip:  0.31 kB
+dist/assets/index-Dru2LryK.css                24.93 kB │ gzip:  5.77 kB
+dist/assets/BrandLogo-C-RR6Pod.js              0.28 kB │ gzip:  0.23 kB
+dist/assets/AuthCard-C8-Wf2-l.js               0.78 kB │ gzip:  0.50 kB
+dist/assets/BaseSpinner-BDWbwBxk.js            0.87 kB │ gzip:  0.54 kB
+dist/assets/TransactionsView-T5MG4cJ-.js       1.13 kB │ gzip:  0.63 kB
+dist/assets/WelcomeView-CQwXVIjX.js            1.78 kB │ gzip:  0.87 kB
+dist/assets/PendingApprovalView-D94xwCJg.js    1.93 kB │ gzip:  1.11 kB
+dist/assets/LoginView-DgjY-kD6.js              2.03 kB │ gzip:  1.01 kB
+dist/assets/PasswordInput-CzZLzSvU.js          2.16 kB │ gzip:  0.92 kB
+dist/assets/VerifyEmailView-BOTOpcQk.js        2.43 kB │ gzip:  1.23 kB
+dist/assets/StatisticsView-DQpnRUlE.js         2.95 kB │ gzip:  1.10 kB
+dist/assets/SupportView-DtZjBIxx.js            3.00 kB │ gzip:  1.46 kB
+dist/assets/RegisterView-D2SW_t-K.js           3.09 kB │ gzip:  1.27 kB
+dist/assets/AppShell-DysvnYse.js               3.93 kB │ gzip:  1.20 kB
+dist/assets/DashboardView-B1o9e3Gr.js          5.00 kB │ gzip:  1.70 kB
+dist/assets/index-D5onyp8G.js                148.26 kB │ gzip: 56.29 kB
+
+✓ built in 355ms

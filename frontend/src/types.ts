@@ -3,6 +3,7 @@ export interface User {
     name: string;
     email: string;
     referral_code: string | null;
+    brand: string | null;
     is_admin: boolean;
     email_verified: boolean;
     approved: boolean;

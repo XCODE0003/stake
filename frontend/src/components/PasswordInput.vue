@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useI18n } from '@/i18n';
 
 defineProps<{ modelValue?: string }>();
 const emit = defineEmits<{ 'update:modelValue': [value: string] }>();
 
+const { t } = useI18n();
 const show = ref(false);
 
 function onInput(event: Event): void {
@@ -16,14 +18,14 @@ function onInput(event: Event): void {
         <input
             :value="modelValue"
             :type="show ? 'text' : 'password'"
-            class="h-11 w-full rounded-md border border-input-border bg-sunken px-3 pr-11 text-base text-foreground outline-none transition placeholder:text-muted/60 focus:border-primary focus:ring-2 focus:ring-primary/30 disabled:opacity-50"
+            class="h-[var(--control-h)] w-full rounded-md border border-input-border bg-sunken px-[var(--control-px)] pr-11 text-base text-foreground outline-none transition placeholder:text-muted/60 focus:border-primary focus:ring-2 focus:ring-primary/30 disabled:opacity-50"
             @input="onInput"
         />
         <button
             type="button"
             tabindex="-1"
             class="absolute inset-y-0 right-0 flex items-center px-3 text-muted transition hover:text-foreground"
-            :aria-label="show ? 'Hide password' : 'Show password'"
+            :aria-label="show ? t('password.hide') : t('password.show')"
             @click="show = !show"
         >
             <svg

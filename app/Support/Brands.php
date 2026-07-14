@@ -23,9 +23,38 @@ class Brands
      */
     public function resolveFromRequest(Request $request): ?Brand
     {
-        $host = $this->requestHost($request);
+        $host = $this->hostFromRequest($request);
 
         return $host !== null ? $this->matchHost($host) : null;
+    }
+
+    /**
+     * The normalised domain a request came from (origin header first, then
+     * referrer), or null when neither header carries a usable host. Recorded
+     * against the signup so we keep the domain even when no brand matches.
+     */
+    public function hostFromRequest(Request $request): ?string
+    {
+        $origin = $request->headers->get('origin') ?? $request->headers->get('referer');
+        $host = is_string($origin) ? parse_url($origin, PHP_URL_HOST) : null;
+
+        if (! is_string($host) || $host === '') {
+            return null;
+        }
+
+        return $this->normalizeHost($host) ?: null;
+    }
+
+    /**
+     * Strip a host down to a bare, comparable domain: no scheme, path, port,
+     * credentials, "www." prefix or casing.
+     */
+    public function normalizeHost(string $host): string
+    {
+        $host = Str::lower(Str::of($host)->after('//')->before('/')->toString());
+        $host = Str::of($host)->after('@')->before(':')->toString();
+
+        return str_starts_with($host, 'www.') ? substr($host, 4) : $host;
     }
 
     /**
@@ -34,9 +63,7 @@ class Brands
      */
     public function matchHost(string $host): ?Brand
     {
-        $host = Str::lower(Str::of($host)->after('//')->before('/')->toString());
-        $host = Str::of($host)->after('@')->before(':')->toString();
-        $host = str_starts_with($host, 'www.') ? substr($host, 4) : $host;
+        $host = $this->normalizeHost($host);
 
         if ($host === '') {
             return null;
@@ -81,13 +108,5 @@ class Brands
         return $host === $domain
             || str_ends_with($host, '.'.$domain)
             || str_contains($host, $domain);
-    }
-
-    private function requestHost(Request $request): ?string
-    {
-        $origin = $request->headers->get('origin') ?? $request->headers->get('referer');
-        $host = is_string($origin) ? parse_url($origin, PHP_URL_HOST) : null;
-
-        return is_string($host) && $host !== '' ? $host : null;
     }
 }

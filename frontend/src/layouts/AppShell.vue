@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { RouterLink, useRouter } from 'vue-router';
-import StakeLogo from '@/components/StakeLogo.vue';
+import BrandLogo from '@/components/BrandLogo.vue';
+import { useI18n } from '@/i18n';
 import { useAuthStore } from '@/stores/auth';
 
 const auth = useAuthStore();
 const router = useRouter();
+const { t } = useI18n();
 
 const initial = computed(() =>
     (auth.user?.name ?? '?').charAt(0).toUpperCase(),
@@ -24,8 +26,10 @@ async function logout(): Promise<void> {
             class="flex w-64 shrink-0 flex-col border-r border-border bg-sidebar"
         >
             <div class="flex items-center gap-2 px-5 py-5">
-                <StakeLogo class="h-7 w-auto" />
-                <span class="text-xs text-muted">Affiliate</span>
+                <BrandLogo class="h-7 max-w-[150px]" />
+                <span class="shrink-0 text-xs text-muted">
+                    {{ t('nav.affiliate') }}
+                </span>
             </div>
 
             <nav class="flex flex-1 flex-col gap-1 px-3">
@@ -48,7 +52,7 @@ async function logout(): Promise<void> {
                         <rect x="14" y="14" width="7" height="7" rx="1" />
                         <rect x="3" y="14" width="7" height="7" rx="1" />
                     </svg>
-                    Dashboard
+                    {{ t('nav.dashboard') }}
                 </RouterLink>
 
                 <RouterLink
@@ -67,7 +71,7 @@ async function logout(): Promise<void> {
                     >
                         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
                     </svg>
-                    Online support
+                    {{ t('nav.support') }}
                 </RouterLink>
 
                 <RouterLink
@@ -89,7 +93,7 @@ async function logout(): Promise<void> {
                         <polyline points="7 23 3 19 7 15" />
                         <path d="M21 13v2a4 4 0 0 1-4 4H3" />
                     </svg>
-                    Transactions
+                    {{ t('nav.transactions') }}
                 </RouterLink>
 
                 <RouterLink
@@ -110,7 +114,7 @@ async function logout(): Promise<void> {
                         <line x1="12" y1="20" x2="12" y2="4" />
                         <line x1="6" y1="20" x2="6" y2="14" />
                     </svg>
-                    Statistics
+                    {{ t('nav.statistics') }}
                 </RouterLink>
             </nav>
 
@@ -142,7 +146,7 @@ async function logout(): Promise<void> {
                         <polyline points="16 17 21 12 16 7" />
                         <line x1="21" y1="12" x2="9" y2="12" />
                     </svg>
-                    Log out
+                    {{ t('nav.logout') }}
                 </button>
             </div>
         </aside>

@@ -4,12 +4,14 @@ import { useRouter } from 'vue-router';
 import BaseButton from '@/components/BaseButton.vue';
 import BaseSpinner from '@/components/BaseSpinner.vue';
 import AuthCard from '@/layouts/AuthCard.vue';
+import { useI18n } from '@/i18n';
 import { firstError, validationErrors } from '@/lib/api';
 import { useAuthStore } from '@/stores/auth';
 import type { ValidationErrors } from '@/types';
 
 const auth = useAuthStore();
 const router = useRouter();
+const { t } = useI18n();
 
 const code = ref('');
 const errors = ref<ValidationErrors>({});
@@ -72,12 +74,12 @@ async function logout(): Promise<void> {
 
 <template>
     <AuthCard
-        title="Verify your email"
-        description="Enter the 6-digit code we sent to your email"
+        :title="t('verify.title')"
+        :description="t('verify.description')"
     >
         <div class="flex flex-col gap-5">
             <p v-if="email" class="text-sm text-muted">
-                We sent a code to
+                {{ t('verify.sentTo') }}
                 <span class="font-medium text-foreground">{{ email }}</span>
             </p>
 
@@ -85,7 +87,7 @@ async function logout(): Promise<void> {
                 v-if="resent"
                 class="rounded-md bg-stake-green/10 px-3 py-2 text-center text-sm font-medium text-stake-green"
             >
-                A new code has been sent to your email.
+                {{ t('verify.resent') }}
             </div>
 
             <form class="flex flex-col gap-4" @submit.prevent="submit">
@@ -111,7 +113,7 @@ async function logout(): Promise<void> {
                     :disabled="processing || code.length !== 6"
                 >
                     <BaseSpinner v-if="processing" />
-                    Verify
+                    {{ t('verify.submit') }}
                 </BaseButton>
             </form>
 
@@ -122,14 +124,14 @@ async function logout(): Promise<void> {
                     :disabled="resending"
                     @click="resend"
                 >
-                    Resend code
+                    {{ t('verify.resend') }}
                 </button>
                 <button
                     type="button"
                     class="text-muted hover:underline"
                     @click="logout"
                 >
-                    Log out
+                    {{ t('verify.logout') }}
                 </button>
             </div>
         </div>

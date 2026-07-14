@@ -47,6 +47,25 @@ class UserForm
                             ->helperText('Grants access to this admin panel.'),
                     ]),
 
+                Section::make('Origin')
+                    ->description('Where this affiliate signed up, taken from the referrer at registration.')
+                    ->columns(2)
+                    ->schema([
+                        TextInput::make('signup_domain')
+                            ->label('Registered from')
+                            ->placeholder('Unknown')
+                            // Recorded at signup — shown for reference, never edited by hand.
+                            ->disabled()
+                            ->dehydrated(false),
+                        Select::make('brand_id')
+                            ->label('Site')
+                            ->relationship('brand', 'name')
+                            ->searchable()
+                            ->preload()
+                            ->placeholder('No matching site')
+                            ->helperText('Matched from the domain above. Change only to correct attribution.'),
+                    ]),
+
                 Section::make('Status')
                     ->columns(2)
                     ->schema([

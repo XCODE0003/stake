@@ -1,10 +1,14 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { RouterLink } from 'vue-router';
-import StakeLogo from '@/components/StakeLogo.vue';
+import BrandLogo from '@/components/BrandLogo.vue';
+import { useI18n } from '@/i18n';
 import { useAuthStore } from '@/stores/auth';
+import { useTheme } from '@/themes/useTheme';
 
 const auth = useAuthStore();
+const theme = useTheme();
+const { t } = useI18n();
 const loggedIn = computed(() => auth.isAuthenticated && auth.user !== null);
 </script>
 
@@ -17,39 +21,39 @@ const loggedIn = computed(() => auth.isAuthenticated && auth.user !== null);
         />
 
         <div class="relative flex w-full max-w-md flex-col items-center gap-10">
-            <StakeLogo class="h-16 w-auto sm:h-20" />
+            <BrandLogo class="h-16 max-w-full sm:h-20" />
 
             <p class="max-w-sm text-lg leading-relaxed font-medium text-muted">
-                Working with us is now easier, faster and more comfortable!
+                {{ t('welcome.tagline') }}
             </p>
 
             <div v-if="loggedIn" class="w-full">
                 <RouterLink
                     :to="{ name: 'dashboard' }"
-                    class="inline-flex h-12 w-full items-center justify-center rounded-md bg-primary px-6 text-base font-semibold text-white shadow-lg transition hover:bg-primary-hover"
+                    class="btn-primary inline-flex h-12 w-full items-center justify-center px-6 text-base font-semibold shadow-lg transition"
                 >
-                    Dashboard
+                    {{ t('welcome.dashboard') }}
                 </RouterLink>
             </div>
 
             <div v-else class="flex w-full flex-col gap-3 sm:flex-row">
                 <RouterLink
                     :to="{ name: 'login' }"
-                    class="inline-flex h-12 flex-1 items-center justify-center rounded-md bg-primary px-6 text-base font-semibold text-white shadow-lg transition hover:bg-primary-hover"
+                    class="btn-primary inline-flex h-12 flex-1 items-center justify-center px-6 text-base font-semibold shadow-lg transition"
                 >
-                    Login
+                    {{ t('welcome.login') }}
                 </RouterLink>
                 <RouterLink
                     :to="{ name: 'register' }"
                     class="inline-flex h-12 flex-1 items-center justify-center rounded-md border border-border bg-surface-high px-6 text-base font-semibold text-foreground transition hover:border-primary/40"
                 >
-                    Register
+                    {{ t('welcome.register') }}
                 </RouterLink>
             </div>
         </div>
 
         <p class="relative mt-16 text-xs text-muted/70">
-            © Stake. Affiliate program.
+            © {{ theme.brand }}. {{ t('welcome.affiliateProgram') }}
         </p>
     </div>
 </template>

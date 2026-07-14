@@ -3,11 +3,13 @@ import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import BaseButton from '@/components/BaseButton.vue';
 import BaseSpinner from '@/components/BaseSpinner.vue';
-import StakeLogo from '@/components/StakeLogo.vue';
+import BrandLogo from '@/components/BrandLogo.vue';
+import { useI18n } from '@/i18n';
 import { useAuthStore } from '@/stores/auth';
 
 const auth = useAuthStore();
 const router = useRouter();
+const { t } = useI18n();
 
 const checking = ref(false);
 const email = computed(() => auth.user?.email ?? '');
@@ -34,10 +36,12 @@ async function logout(): Promise<void> {
     <div class="flex min-h-svh items-center justify-center bg-background p-4 sm:p-6">
         <div class="w-full max-w-md">
             <div class="mb-8 flex justify-center">
-                <StakeLogo class="h-9 w-auto" />
+                <BrandLogo class="h-9 w-auto" />
             </div>
 
-            <div class="rounded-lg bg-card p-8 text-center shadow-xl">
+            <div
+                class="rounded-lg border border-[var(--card-border)] bg-card p-8 text-center shadow-xl"
+            >
                 <div
                     class="mx-auto mb-5 flex size-14 items-center justify-center rounded-full bg-primary/10 text-primary"
                 >
@@ -56,12 +60,10 @@ async function logout(): Promise<void> {
                 </div>
 
                 <h1 class="text-xl font-bold tracking-tight">
-                    Please wait for your account to be approved
+                    {{ t('pending.title') }}
                 </h1>
                 <p class="mt-3 text-sm text-muted">
-                    Your email is verified. A manager will review your
-                    application and activate the account. Once approved, you'll
-                    see your terms and be able to link a payout wallet.
+                    {{ t('pending.body') }}
                 </p>
 
                 <p v-if="email" class="mt-4 rounded-md bg-surface-high px-3 py-2 text-sm">
@@ -75,14 +77,14 @@ async function logout(): Promise<void> {
                         @click="checkStatus"
                     >
                         <BaseSpinner v-if="checking" />
-                        Check status
+                        {{ t('pending.check') }}
                     </BaseButton>
                     <button
                         type="button"
                         class="text-sm text-muted hover:underline"
                         @click="logout"
                     >
-                        Log out
+                        {{ t('pending.logout') }}
                     </button>
                 </div>
             </div>

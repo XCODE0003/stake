@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import AppShell from '@/layouts/AppShell.vue';
+import { useI18n } from '@/i18n';
 import { useAuthStore } from '@/stores/auth';
 
 const auth = useAuthStore();
+const { t } = useI18n();
 const user = computed(() => auth.user!);
 
 function amount(value: string): string {
@@ -25,8 +27,12 @@ const currency = computed(() => user.value.fixed_payment_currency);
     <AppShell>
         <div class="mx-auto flex w-full max-w-6xl flex-col gap-6 p-4 sm:p-8">
             <div>
-                <h1 class="text-2xl font-bold tracking-tight">Statistics</h1>
-                <p class="text-sm text-muted">Your affiliate performance.</p>
+                <h1 class="text-2xl font-bold tracking-tight">
+                    {{ t('statistics.title') }}
+                </h1>
+                <p class="text-sm text-muted">
+                    {{ t('statistics.subtitle') }}
+                </p>
             </div>
 
             <div class="grid gap-4 md:grid-cols-3">
@@ -35,7 +41,9 @@ const currency = computed(() => user.value.fixed_payment_currency);
                     class="flex items-start justify-between gap-4 rounded-lg border border-border bg-card p-6"
                 >
                     <div class="space-y-2">
-                        <p class="text-sm text-muted">Referrals</p>
+                        <p class="text-sm text-muted">
+                            {{ t('statistics.referrals') }}
+                        </p>
                         <p class="text-3xl font-bold">
                             {{ user.referrals_count }}
                         </p>
@@ -64,7 +72,9 @@ const currency = computed(() => user.value.fixed_payment_currency);
                     class="flex items-start justify-between gap-4 rounded-lg border border-border bg-card p-6"
                 >
                     <div class="space-y-2">
-                        <p class="text-sm text-muted">Casino profit</p>
+                        <p class="text-sm text-muted">
+                            {{ t('statistics.casinoProfit') }}
+                        </p>
                         <p class="text-3xl font-bold">
                             {{ casinoProfit }}
                             <span class="text-lg text-muted">{{ currency }}</span>
@@ -93,7 +103,9 @@ const currency = computed(() => user.value.fixed_payment_currency);
                     class="flex items-start justify-between gap-4 rounded-lg border border-border bg-card p-6"
                 >
                     <div class="space-y-2">
-                        <p class="text-sm text-muted">Your profit</p>
+                        <p class="text-sm text-muted">
+                            {{ t('statistics.yourProfit') }}
+                        </p>
                         <p class="text-3xl font-bold text-stake-green">
                             {{ yourProfit }}
                             <span class="text-lg text-muted">{{ currency }}</span>

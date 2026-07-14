@@ -28,6 +28,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property string $email
  * @property string|null $referral_code
  * @property int|null $brand_id
+ * @property string|null $signup_domain
  * @property Carbon|null $email_verified_at
  * @property string $password
  * @property bool $is_admin
@@ -52,6 +53,7 @@ use Laravel\Sanctum\HasApiTokens;
     'email',
     'referral_code',
     'brand_id',
+    'signup_domain',
     'password',
     'is_admin',
     'approved_at',

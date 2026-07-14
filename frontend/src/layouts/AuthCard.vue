@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router';
-import StakeLogo from '@/components/StakeLogo.vue';
+import BrandLogo from '@/components/BrandLogo.vue';
 
 defineProps<{
     title: string;
@@ -10,9 +10,11 @@ defineProps<{
 
 <template>
     <div class="flex min-h-svh items-center justify-center bg-background p-4 sm:p-6">
-        <div class="w-full max-w-md rounded-lg bg-card p-6 shadow-xl sm:p-8">
+        <div
+            class="w-full max-w-md rounded-lg border border-[var(--card-border)] bg-card p-6 shadow-xl sm:p-8"
+        >
             <RouterLink to="/" class="inline-flex">
-                <StakeLogo class="mb-6 h-8 w-auto" />
+                <BrandLogo class="mb-6 h-8 w-auto" />
             </RouterLink>
 
             <div class="mb-6 space-y-1.5">

@@ -1,13 +1,20 @@
 <script setup lang="ts">
 import AppShell from '@/layouts/AppShell.vue';
+import { useI18n } from '@/i18n';
+
+const { t } = useI18n();
 </script>
 
 <template>
     <AppShell>
         <div class="mx-auto flex w-full max-w-6xl flex-col gap-6 p-4 sm:p-8">
             <div>
-                <h1 class="text-2xl font-bold tracking-tight">Transactions</h1>
-                <p class="text-sm text-muted">Your payout history.</p>
+                <h1 class="text-2xl font-bold tracking-tight">
+                    {{ t('transactions.title') }}
+                </h1>
+                <p class="text-sm text-muted">
+                    {{ t('transactions.subtitle') }}
+                </p>
             </div>
 
             <div
@@ -31,9 +38,11 @@ import AppShell from '@/layouts/AppShell.vue';
                         <path d="M21 13v2a4 4 0 0 1-4 4H3" />
                     </svg>
                 </div>
-                <p class="text-base font-medium">No transactions yet</p>
+                <p class="text-base font-medium">
+                    {{ t('transactions.emptyTitle') }}
+                </p>
                 <p class="mt-1 text-sm text-muted">
-                    You don't have any transactions yet.
+                    {{ t('transactions.emptyBody') }}
                 </p>
             </div>
         </div>

@@ -36,8 +36,10 @@ class AuthController extends Controller
         ]);
 
         // Which of our sites the affiliate came from — matched by the request
-        // referrer/origin domain. Null when it matches no configured brand.
-        $brand = $brands->resolveFromRequest($request);
+        // referrer/origin domain. The brand is null when the domain matches no
+        // configured site, so the raw domain is kept alongside it either way.
+        $domain = $brands->hostFromRequest($request);
+        $brand = $domain !== null ? $brands->matchHost($domain) : null;
 
         $user = User::create([
             'name' => $data['name'],
@@ -45,6 +47,7 @@ class AuthController extends Controller
             'password' => $data['password'],
             'referral_code' => $data['referral_code'] ?? null,
             'brand_id' => $brand?->getKey(),
+            'signup_domain' => $domain,
         ]);
 
         // Dispatches the email verification code (see User::sendEmailVerificationNotification).

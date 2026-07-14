@@ -24,6 +24,8 @@ export const useAuthStore = defineStore('auth', () => {
     }
 
     async function register(payload: RegisterPayload): Promise<void> {
+        // The API attributes the signup to a brand from the request referrer,
+        // so nothing brand-specific needs to be sent here.
         const { data } = await api.post('/register', payload);
         applyToken(data.token);
         user.value = data.data;

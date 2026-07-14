@@ -12,6 +12,7 @@ use Filament\Actions\EditAction;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -34,6 +35,13 @@ class UsersTable
                     ->label('Site')
                     ->badge()
                     ->placeholder('—')
+                    ->sortable(),
+                TextColumn::make('signup_domain')
+                    ->label('Registered from')
+                    ->description(fn (User $record): ?string => $record->brand_id === null && filled($record->signup_domain) ? 'No matching site' : null)
+                    ->copyable()
+                    ->placeholder('Unknown')
+                    ->searchable()
                     ->sortable(),
                 IconColumn::make('email_verified_at')
                     ->label('Verified')
@@ -67,6 +75,20 @@ class UsersTable
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
+                SelectFilter::make('signup_domain')
+                    ->label('Registered from')
+                    ->options(fn (): array => User::query()
+                        ->whereNotNull('signup_domain')
+                        ->distinct()
+                        ->orderBy('signup_domain')
+                        ->pluck('signup_domain', 'signup_domain')
+                        ->all())
+                    ->searchable(),
+                SelectFilter::make('brand')
+                    ->label('Site')
+                    ->relationship('brand', 'name')
+                    ->searchable()
+                    ->preload(),
                 TernaryFilter::make('approved')
                     ->label('Approval')
                     ->placeholder('All')

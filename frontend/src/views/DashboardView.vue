@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
 import AppShell from '@/layouts/AppShell.vue';
+import { useI18n } from '@/i18n';
 import { useAuthStore } from '@/stores/auth';
 import type { NetworkOption } from '@/types';
 
 const auth = useAuthStore();
+const { t } = useI18n();
 
 const user = computed(() => auth.user!);
 const networks = ref<NetworkOption[]>([]);
@@ -53,10 +55,10 @@ onMounted(async () => {
         <div class="mx-auto flex w-full max-w-6xl flex-col gap-6 p-4 sm:p-8">
             <div>
                 <h1 class="text-2xl font-bold tracking-tight">
-                    Welcome back, {{ user.name }}
+                    {{ t('dashboard.welcomeBack') }}, {{ user.name }}
                 </h1>
                 <p class="text-sm text-muted">
-                    Here are your current affiliate terms.
+                    {{ t('dashboard.subtitle') }}
                 </p>
             </div>
 
@@ -66,7 +68,9 @@ onMounted(async () => {
                     class="flex items-start justify-between gap-4 rounded-lg border border-border bg-card p-6 transition-colors hover:border-primary/40"
                 >
                     <div class="space-y-2">
-                        <p class="text-sm text-muted">Fixed payment</p>
+                        <p class="text-sm text-muted">
+                            {{ t('dashboard.fixedPayment') }}
+                        </p>
                         <p class="text-3xl font-bold text-stake-green">
                             {{ formattedPayment }}
                             <span class="text-lg text-muted">
@@ -97,7 +101,9 @@ onMounted(async () => {
                     class="flex items-start justify-between gap-4 rounded-lg border border-border bg-card p-6 transition-colors hover:border-primary/40"
                 >
                     <div class="space-y-2">
-                        <p class="text-sm text-muted">Streams</p>
+                        <p class="text-sm text-muted">
+                            {{ t('dashboard.streams') }}
+                        </p>
                         <p class="text-3xl font-bold">{{ user.streams_count }}</p>
                     </div>
                     <span
@@ -122,7 +128,9 @@ onMounted(async () => {
                     class="flex items-start justify-between gap-4 rounded-lg border border-border bg-card p-6 transition-colors hover:border-primary/40"
                 >
                     <div class="space-y-2">
-                        <p class="text-sm text-muted">Referrals</p>
+                        <p class="text-sm text-muted">
+                            {{ t('dashboard.referrals') }}
+                        </p>
                         <p class="text-3xl font-bold">
                             {{ user.referrals_count }}
                         </p>
@@ -167,9 +175,11 @@ onMounted(async () => {
                         </svg>
                     </span>
                     <div>
-                        <h2 class="text-base font-semibold">Payout wallet</h2>
+                        <h2 class="text-base font-semibold">
+                            {{ t('dashboard.payoutWallet') }}
+                        </h2>
                         <p class="text-sm text-muted">
-                            Link a wallet address to receive payouts.
+                            {{ t('dashboard.payoutWalletDesc') }}
                         </p>
                     </div>
                 </div>
@@ -207,18 +217,18 @@ onMounted(async () => {
                             </div>
                         </div>
                         <p v-else class="text-sm text-muted">
-                            No wallet linked yet.
+                            {{ t('dashboard.noWallet') }}
                         </p>
 
                         <button
                             @click="connectPayoutWallet"
                             type="button"
-                            class="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-primary px-5 text-base font-semibold text-white transition hover:bg-primary-hover"
+                            class="btn-primary inline-flex h-[var(--control-h)] items-center justify-center gap-2 px-5 text-base font-semibold transition"
                         >
                             {{
                                 user.wallet_address
-                                    ? 'Edit wallet'
-                                    : 'Link payout wallet'
+                                    ? t('dashboard.editWallet')
+                                    : t('dashboard.linkWallet')
                             }}
                         </button>
                     </div>

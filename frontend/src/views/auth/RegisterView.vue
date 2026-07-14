@@ -6,12 +6,14 @@ import BaseInput from '@/components/BaseInput.vue';
 import BaseSpinner from '@/components/BaseSpinner.vue';
 import PasswordInput from '@/components/PasswordInput.vue';
 import AuthCard from '@/layouts/AuthCard.vue';
+import { useI18n } from '@/i18n';
 import { firstError, validationErrors } from '@/lib/api';
 import { useAuthStore } from '@/stores/auth';
 import type { ValidationErrors } from '@/types';
 
 const auth = useAuthStore();
 const router = useRouter();
+const { t } = useI18n();
 
 const form = reactive({
     email: '',
@@ -39,13 +41,14 @@ async function submit(): Promise<void> {
 
 <template>
     <AuthCard
-        title="Create an Account"
-        description="Register to access the affiliate dashboard"
+        :title="t('register.title')"
+        :description="t('register.description')"
     >
         <form class="flex flex-col gap-5" @submit.prevent="submit">
             <div class="grid gap-2">
                 <label for="email" class="text-sm font-medium">
-                    Email <span class="text-destructive">*</span>
+                    {{ t('register.email') }}
+                    <span class="text-destructive">*</span>
                 </label>
                 <BaseInput
                     id="email"
@@ -65,14 +68,15 @@ async function submit(): Promise<void> {
 
             <div class="grid gap-2">
                 <label for="name" class="text-sm font-medium">
-                    Username <span class="text-destructive">*</span>
+                    {{ t('register.username') }}
+                    <span class="text-destructive">*</span>
                 </label>
                 <BaseInput
                     id="name"
                     v-model="form.name"
                     type="text"
                     autocomplete="username"
-                    placeholder="Username"
+                    :placeholder="t('register.usernamePlaceholder')"
                     required
                 />
                 <p
@@ -85,13 +89,14 @@ async function submit(): Promise<void> {
 
             <div class="grid gap-2">
                 <label for="password" class="text-sm font-medium">
-                    Password <span class="text-destructive">*</span>
+                    {{ t('register.password') }}
+                    <span class="text-destructive">*</span>
                 </label>
                 <PasswordInput
                     id="password"
                     v-model="form.password"
                     autocomplete="new-password"
-                    placeholder="Password"
+                    :placeholder="t('register.passwordPlaceholder')"
                     required
                 />
                 <p
@@ -109,9 +114,9 @@ async function submit(): Promise<void> {
                     class="mt-0.5 size-4 rounded border-input-border bg-sunken accent-primary"
                 />
                 <span class="text-muted">
-                    I am 18 or older and agree to the
+                    {{ t('register.terms') }}
                     <a href="#" class="text-primary hover:underline">
-                        Terms and Conditions
+                        {{ t('register.termsLink') }}
                     </a>
                     <span class="text-destructive">*</span>
                 </span>
@@ -129,17 +134,17 @@ async function submit(): Promise<void> {
                 :disabled="processing || !form.terms"
             >
                 <BaseSpinner v-if="processing" />
-                Register
+                {{ t('register.submit') }}
             </BaseButton>
         </form>
 
         <p class="mt-6 text-center text-sm text-muted">
-            Already have an account?
+            {{ t('register.haveAccount') }}
             <RouterLink
                 :to="{ name: 'login' }"
                 class="text-primary hover:underline"
             >
-                Log in
+                {{ t('register.loginLink') }}
             </RouterLink>
         </p>
     </AuthCard>

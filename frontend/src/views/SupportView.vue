@@ -1,13 +1,15 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import BaseButton from '@/components/BaseButton.vue';
 import BaseSpinner from '@/components/BaseSpinner.vue';
 import AppShell from '@/layouts/AppShell.vue';
+import { useI18n } from '@/i18n';
 import { firstError, validationErrors } from '@/lib/api';
 import { useAuthStore } from '@/stores/auth';
 import type { Ticket, ValidationErrors } from '@/types';
 
 const auth = useAuthStore();
+const { t } = useI18n();
 
 const tickets = ref<Ticket[]>([]);
 const loading = ref(true);
@@ -21,11 +23,11 @@ const statusStyles: Record<Ticket['status'], string> = {
     closed: 'bg-muted/10 text-muted',
 };
 
-const statusLabels: Record<Ticket['status'], string> = {
-    open: 'Open',
-    answered: 'Answered',
-    closed: 'Closed',
-};
+const statusLabels = computed<Record<Ticket['status'], string>>(() => ({
+    open: t('support.statusOpen'),
+    answered: t('support.statusAnswered'),
+    closed: t('support.statusClosed'),
+}));
 
 function formatDate(value: string | null): string {
     return value ? new Date(value).toLocaleString() : '';
@@ -59,21 +61,23 @@ onMounted(async () => {
         <div class="mx-auto flex w-full max-w-3xl flex-col gap-6 p-4 sm:p-8">
             <div>
                 <h1 class="text-2xl font-bold tracking-tight">
-                    Online support
+                    {{ t('support.title') }}
                 </h1>
                 <p class="text-sm text-muted">
-                    Open a ticket and our team will get back to you.
+                    {{ t('support.subtitle') }}
                 </p>
             </div>
 
             <!-- New ticket -->
             <div class="rounded-lg border border-border bg-card p-6">
-                <h2 class="text-base font-semibold">New ticket</h2>
+                <h2 class="text-base font-semibold">
+                    {{ t('support.newTicket') }}
+                </h2>
                 <form class="mt-4 flex flex-col gap-3" @submit.prevent="submit">
                     <textarea
                         v-model="message"
                         rows="4"
-                        placeholder="Describe your question or issue…"
+                        :placeholder="t('support.placeholder')"
                         class="w-full rounded-md border border-input-border bg-sunken px-3 py-2 text-base text-foreground outline-none transition placeholder:text-muted/60 focus:border-primary focus:ring-2 focus:ring-primary/30"
                     ></textarea>
                     <p
@@ -88,7 +92,7 @@ onMounted(async () => {
                             :disabled="sending || message.trim().length === 0"
                         >
                             <BaseSpinner v-if="sending" />
-                            Send
+                            {{ t('support.send') }}
                         </BaseButton>
                     </div>
                 </form>
@@ -96,13 +100,15 @@ onMounted(async () => {
 
             <!-- Ticket list -->
             <div class="flex flex-col gap-4">
-                <p v-if="loading" class="text-sm text-muted">Loading…</p>
+                <p v-if="loading" class="text-sm text-muted">
+                    {{ t('support.loading') }}
+                </p>
 
                 <div
                     v-else-if="tickets.length === 0"
                     class="rounded-lg border border-border bg-card p-8 text-center text-sm text-muted"
                 >
-                    You have no tickets yet.
+                    {{ t('support.empty') }}
                 </div>
 
                 <div
@@ -131,7 +137,7 @@ onMounted(async () => {
                         class="mt-4 rounded-md border-l-2 border-primary bg-surface-high/50 p-3"
                     >
                         <p class="text-xs font-medium text-primary">
-                            Support reply
+                            {{ t('support.reply') }}
                         </p>
                         <p class="mt-1 text-sm whitespace-pre-line">
                             {{ ticket.reply }}

@@ -87,6 +87,87 @@ class ApiFlowTest extends TestCase
         ]);
     }
 
+    public function test_register_records_the_referrer_domain(): void
+    {
+        Brand::factory()->create(['name' => 'Vodka', 'domain' => 'vodka-partners.com']);
+
+        $this->postJson('/api/register', [
+            'name' => 'streamer',
+            'email' => 'streamer@example.com',
+            'password' => 'password',
+            'terms' => true,
+        ], ['Referer' => 'https://vodka-partners.com/signup'])->assertCreated();
+
+        $this->assertDatabaseHas('users', [
+            'email' => 'streamer@example.com',
+            'signup_domain' => 'vodka-partners.com',
+        ]);
+    }
+
+    public function test_register_records_the_referrer_domain_without_a_matching_brand(): void
+    {
+        $this->postJson('/api/register', [
+            'name' => 'streamer',
+            'email' => 'streamer@example.com',
+            'password' => 'password',
+            'terms' => true,
+        ], ['Referer' => 'https://unknown-site.com/signup'])->assertCreated();
+
+        $this->assertDatabaseHas('users', [
+            'email' => 'streamer@example.com',
+            'brand_id' => null,
+            'signup_domain' => 'unknown-site.com',
+        ]);
+    }
+
+    public function test_register_normalises_the_referrer_domain(): void
+    {
+        $this->postJson('/api/register', [
+            'name' => 'streamer',
+            'email' => 'streamer@example.com',
+            'password' => 'password',
+            'terms' => true,
+        ], ['Referer' => 'https://WWW.Vodka-Partners.com:8443/signup?ref=1'])->assertCreated();
+
+        $this->assertDatabaseHas('users', [
+            'email' => 'streamer@example.com',
+            'signup_domain' => 'vodka-partners.com',
+        ]);
+    }
+
+    public function test_register_prefers_the_origin_header_over_the_referrer(): void
+    {
+        $this->postJson('/api/register', [
+            'name' => 'streamer',
+            'email' => 'streamer@example.com',
+            'password' => 'password',
+            'terms' => true,
+        ], [
+            'Origin' => 'https://qzino-partners.com',
+            'Referer' => 'https://vodka-partners.com/signup',
+        ])->assertCreated();
+
+        $this->assertDatabaseHas('users', [
+            'email' => 'streamer@example.com',
+            'signup_domain' => 'qzino-partners.com',
+        ]);
+    }
+
+    public function test_register_without_a_referrer_has_no_signup_domain(): void
+    {
+        $this->postJson('/api/register', [
+            'name' => 'streamer',
+            'email' => 'streamer@example.com',
+            'password' => 'password',
+            'terms' => true,
+        ])->assertCreated();
+
+        $this->assertDatabaseHas('users', [
+            'email' => 'streamer@example.com',
+            'signup_domain' => null,
+        ]);
+    }
+
     public function test_register_ignores_inactive_brands(): void
     {
         Brand::factory()->create([
