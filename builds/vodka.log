@@ -7,21 +7,21 @@ vite v8.0.16 building client environment for production...
 rendering chunks...
 computing gzip size...
 dist/index.html                                0.47 kB │ gzip:  0.31 kB
-dist/assets/index-Dru2LryK.css                24.93 kB │ gzip:  5.77 kB
-dist/assets/AuthCard-DKDZ03K_.js               0.78 kB │ gzip:  0.50 kB
-dist/assets/BaseSpinner-BYgcmXN_.js            0.87 kB │ gzip:  0.54 kB
-dist/assets/TransactionsView-DgczgdI6.js       1.25 kB │ gzip:  0.67 kB
-dist/assets/WelcomeView-C3Lvg1n6.js            1.77 kB │ gzip:  0.83 kB
-dist/assets/PendingApprovalView-IK7H0yea.js    1.81 kB │ gzip:  0.98 kB
-dist/assets/LoginView-DAqmQ1aE.js              2.16 kB │ gzip:  1.02 kB
-dist/assets/PasswordInput-CLOAU3h-.js          2.23 kB │ gzip:  0.96 kB
-dist/assets/VerifyEmailView-CfBBla28.js        2.51 kB │ gzip:  1.23 kB
-dist/assets/StatisticsView-CSBa9rOv.js         3.07 kB │ gzip:  1.13 kB
-dist/assets/SupportView-B_-itXKg.js            3.15 kB │ gzip:  1.45 kB
-dist/assets/RegisterView-Dd8k_VSF.js           3.34 kB │ gzip:  1.28 kB
-dist/assets/AppShell-4Iq3TX0G.js               3.99 kB │ gzip:  1.20 kB
-dist/assets/DashboardView-C68DHykW.js          5.15 kB │ gzip:  1.70 kB
-dist/assets/i18n-DZoJceXw.js                   7.81 kB │ gzip:  2.68 kB
-dist/assets/index-vA6-VsQB.js                148.19 kB │ gzip: 56.26 kB
+dist/assets/index-CsbWxHku.css                26.79 kB │ gzip:  6.09 kB
+dist/assets/AuthCard-CvdHqzTR.js               0.78 kB │ gzip:  0.50 kB
+dist/assets/BaseSpinner-CiK3IofN.js            0.87 kB │ gzip:  0.54 kB
+dist/assets/TransactionsView-D_d_ym34.js       1.25 kB │ gzip:  0.67 kB
+dist/assets/WelcomeView-Bq3BI0td.js            1.76 kB │ gzip:  0.84 kB
+dist/assets/PendingApprovalView-BZcql50K.js    2.03 kB │ gzip:  1.11 kB
+dist/assets/LoginView-ZeziN-s7.js              2.16 kB │ gzip:  1.02 kB
+dist/assets/PasswordInput-CeJTiHB3.js          2.23 kB │ gzip:  0.96 kB
+dist/assets/VerifyEmailView-wjZyy0ot.js        2.51 kB │ gzip:  1.23 kB
+dist/assets/StatisticsView-amWTLaML.js         3.07 kB │ gzip:  1.12 kB
+dist/assets/SupportView-DA3MPXJL.js            3.16 kB │ gzip:  1.45 kB
+dist/assets/RegisterView-B2cSvRDP.js           3.33 kB │ gzip:  1.28 kB
+dist/assets/DashboardView-Co4TyfGW.js          5.15 kB │ gzip:  1.70 kB
+dist/assets/AppShell-kjD19k1u.js               5.57 kB │ gzip:  1.61 kB
+dist/assets/i18n-D_EVeIWO.js                   7.95 kB │ gzip:  2.73 kB
+dist/assets/index-Br1dD9r4.js                148.38 kB │ gzip: 56.32 kB
 
-✓ built in 258ms
+✓ built in 186ms

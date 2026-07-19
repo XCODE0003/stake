@@ -7,21 +7,21 @@ vite v8.0.16 building client environment for production...
 rendering chunks...
 computing gzip size...
 dist/index.html                                0.47 kB │ gzip:  0.31 kB
-dist/assets/index-Dru2LryK.css                24.93 kB │ gzip:  5.77 kB
-dist/assets/AuthCard-B28htfTi.js               0.78 kB │ gzip:  0.50 kB
-dist/assets/BaseSpinner-D6OGOk5d.js            0.87 kB │ gzip:  0.54 kB
-dist/assets/TransactionsView-B2pTgBjQ.js       1.25 kB │ gzip:  0.67 kB
-dist/assets/WelcomeView-IZtdpG7w.js            1.77 kB │ gzip:  0.83 kB
-dist/assets/PendingApprovalView-DTPjaVEv.js    1.81 kB │ gzip:  0.98 kB
-dist/assets/LoginView-D8NFvqK4.js              2.16 kB │ gzip:  1.02 kB
-dist/assets/PasswordInput-rw62xPq5.js          2.23 kB │ gzip:  0.96 kB
-dist/assets/VerifyEmailView-BvZBT-VH.js        2.51 kB │ gzip:  1.23 kB
-dist/assets/StatisticsView-BeI6-CvH.js         3.07 kB │ gzip:  1.12 kB
-dist/assets/SupportView-BOavp8Wq.js            3.15 kB │ gzip:  1.44 kB
-dist/assets/RegisterView-N2JuJ6CQ.js           3.34 kB │ gzip:  1.28 kB
-dist/assets/AppShell-DtJYvBg4.js               3.99 kB │ gzip:  1.20 kB
-dist/assets/DashboardView-CT4XCf-I.js          5.15 kB │ gzip:  1.70 kB
-dist/assets/i18n-B8heEsgn.js                   7.81 kB │ gzip:  2.69 kB
-dist/assets/index-4vYhX0j4.js                148.19 kB │ gzip: 56.27 kB
+dist/assets/index-CsbWxHku.css                26.79 kB │ gzip:  6.09 kB
+dist/assets/AuthCard-Cn3js_V4.js               0.78 kB │ gzip:  0.50 kB
+dist/assets/BaseSpinner-DlPv0Scb.js            0.87 kB │ gzip:  0.54 kB
+dist/assets/TransactionsView-DkVvb4mq.js       1.25 kB │ gzip:  0.67 kB
+dist/assets/WelcomeView-DKsnTofS.js            1.76 kB │ gzip:  0.83 kB
+dist/assets/PendingApprovalView-I4mdMSHT.js    2.03 kB │ gzip:  1.11 kB
+dist/assets/LoginView-nv7QFPLL.js              2.16 kB │ gzip:  1.02 kB
+dist/assets/PasswordInput-CUMb2uk4.js          2.23 kB │ gzip:  0.96 kB
+dist/assets/VerifyEmailView-D_S-B67Q.js        2.51 kB │ gzip:  1.23 kB
+dist/assets/StatisticsView-B1zvF-Aa.js         3.07 kB │ gzip:  1.12 kB
+dist/assets/SupportView-BeW6p7VF.js            3.16 kB │ gzip:  1.45 kB
+dist/assets/RegisterView-CHnGu6E5.js           3.33 kB │ gzip:  1.27 kB
+dist/assets/DashboardView-Cd5ypvFF.js          5.15 kB │ gzip:  1.70 kB
+dist/assets/AppShell-BKrtuS5E.js               5.57 kB │ gzip:  1.61 kB
+dist/assets/i18n-wbptQd3d.js                   7.95 kB │ gzip:  2.73 kB
+dist/assets/index-DaViYS5F.js                148.38 kB │ gzip: 56.32 kB
 
-✓ built in 646ms
+✓ built in 322ms

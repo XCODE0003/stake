@@ -1,16 +1,30 @@
 <script setup lang="ts">
-import { computed } from 'vue';
-import { RouterLink, useRouter } from 'vue-router';
+import { computed, ref, watch } from 'vue';
+import { RouterLink, useRoute, useRouter } from 'vue-router';
 import BrandLogo from '@/components/BrandLogo.vue';
 import { useI18n } from '@/i18n';
 import { useAuthStore } from '@/stores/auth';
 
 const auth = useAuthStore();
 const router = useRouter();
+const route = useRoute();
 const { t } = useI18n();
 
 const initial = computed(() =>
     (auth.user?.name ?? '?').charAt(0).toUpperCase(),
+);
+
+// Off-canvas drawer state — only relevant below the `lg` breakpoint, where the
+// sidebar slides in over the content instead of sitting beside it.
+const sidebarOpen = ref(false);
+
+// Close the drawer whenever navigation happens, so tapping a link doesn't leave
+// it hanging open over the new view.
+watch(
+    () => route.fullPath,
+    () => {
+        sidebarOpen.value = false;
+    },
 );
 
 async function logout(): Promise<void> {
@@ -21,15 +35,41 @@ async function logout(): Promise<void> {
 
 <template>
     <div class="flex min-h-svh bg-background">
-        <!-- Sidebar -->
+        <!-- Mobile drawer backdrop -->
+        <div
+            v-if="sidebarOpen"
+            class="fixed inset-0 z-40 bg-black/60 lg:hidden"
+            @click="sidebarOpen = false"
+        />
+
+        <!-- Sidebar: static column on desktop, slide-in drawer on mobile -->
         <aside
-            class="flex w-64 shrink-0 flex-col border-r border-border bg-sidebar"
+            class="fixed inset-y-0 left-0 z-50 flex w-64 shrink-0 flex-col border-r border-border bg-sidebar transition-transform duration-200 ease-out lg:static lg:z-auto lg:translate-x-0"
+            :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
         >
             <div class="flex items-center gap-2 px-5 py-5">
                 <BrandLogo class="h-7 max-w-[150px]" />
                 <span class="shrink-0 text-xs text-muted">
                     {{ t('nav.affiliate') }}
                 </span>
+                <button
+                    class="ml-auto flex size-8 items-center justify-center rounded-md text-muted transition hover:bg-surface-high hover:text-foreground lg:hidden"
+                    :aria-label="t('nav.closeMenu')"
+                    @click="sidebarOpen = false"
+                >
+                    <svg
+                        class="size-5"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    >
+                        <line x1="18" y1="6" x2="6" y2="18" />
+                        <line x1="6" y1="6" x2="18" y2="18" />
+                    </svg>
+                </button>
             </div>
 
             <nav class="flex flex-1 flex-col gap-1 px-3">
@@ -151,9 +191,38 @@ async function logout(): Promise<void> {
             </div>
         </aside>
 
-        <!-- Main -->
-        <main class="flex-1 overflow-x-hidden">
-            <slot />
-        </main>
+        <!-- Right column -->
+        <div class="flex min-w-0 flex-1 flex-col">
+            <!-- Mobile top bar with hamburger -->
+            <header
+                class="flex items-center gap-3 border-b border-border bg-sidebar px-4 py-3 lg:hidden"
+            >
+                <button
+                    class="-ml-1 flex size-9 items-center justify-center rounded-md text-muted transition hover:bg-surface-high hover:text-foreground"
+                    :aria-label="t('nav.openMenu')"
+                    @click="sidebarOpen = true"
+                >
+                    <svg
+                        class="size-5"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    >
+                        <line x1="3" y1="6" x2="21" y2="6" />
+                        <line x1="3" y1="12" x2="21" y2="12" />
+                        <line x1="3" y1="18" x2="21" y2="18" />
+                    </svg>
+                </button>
+                <BrandLogo class="h-6 max-w-[130px]" />
+            </header>
+
+            <!-- Main -->
+            <main class="min-w-0 flex-1 overflow-x-hidden">
+                <slot />
+            </main>
+        </div>
     </div>
 </template>

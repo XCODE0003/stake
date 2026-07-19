@@ -1,11 +1,16 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import BaseButton from '@/components/BaseButton.vue';
 import BaseSpinner from '@/components/BaseSpinner.vue';
 import BrandLogo from '@/components/BrandLogo.vue';
 import { useI18n } from '@/i18n';
 import { useAuthStore } from '@/stores/auth';
+
+// Approval happens in the admin panel, out of band, so the affiliate's cached
+// user goes stale. Poll for the current status so an approved account moves on
+// on its own within a few seconds, without the user having to do anything.
+const POLL_INTERVAL_MS = 8000;
 
 const auth = useAuthStore();
 const router = useRouter();
@@ -14,19 +19,59 @@ const { t } = useI18n();
 const checking = ref(false);
 const email = computed(() => auth.user?.email ?? '');
 
-async function checkStatus(): Promise<void> {
-    checking.value = true;
-    try {
-        await auth.fetchMe();
-        if (auth.user?.approved) {
-            router.push({ name: 'dashboard' });
-        }
-    } finally {
-        checking.value = false;
+let timer: ReturnType<typeof setInterval> | undefined;
+let inFlight = false;
+
+function stopPolling(): void {
+    if (timer !== undefined) {
+        clearInterval(timer);
+        timer = undefined;
     }
 }
 
+/**
+ * Refresh the user and route them onward once their stage changes. `manual`
+ * drives the button spinner; the background poll runs silently.
+ */
+async function refresh(manual = false): Promise<void> {
+    if (inFlight) {
+        return;
+    }
+
+    inFlight = true;
+
+    if (manual) {
+        checking.value = true;
+    }
+
+    try {
+        await auth.refreshUser();
+
+        if (auth.user === null) {
+            stopPolling();
+            router.push({ name: 'login' });
+        } else if (auth.user.approved) {
+            stopPolling();
+            router.push({ name: 'dashboard' });
+        }
+    } finally {
+        inFlight = false;
+
+        if (manual) {
+            checking.value = false;
+        }
+    }
+}
+
+onMounted(() => {
+    refresh();
+    timer = setInterval(refresh, POLL_INTERVAL_MS);
+});
+
+onUnmounted(stopPolling);
+
 async function logout(): Promise<void> {
+    stopPolling();
     await auth.logout();
     router.push({ name: 'login' });
 }
@@ -74,7 +119,7 @@ async function logout(): Promise<void> {
                     <BaseButton
                         class="w-full"
                         :disabled="checking"
-                        @click="checkStatus"
+                        @click="refresh(true)"
                     >
                         <BaseSpinner v-if="checking" />
                         {{ t('pending.check') }}

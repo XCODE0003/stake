@@ -1,6 +1,3 @@
-import { defineStore } from 'pinia';
-import { computed, ref } from 'vue';
-import api, { getToken, setToken } from '@/lib/api';
 import type {
     LoginPayload,
     NetworkOption,
@@ -9,6 +6,9 @@ import type {
     User,
     WalletPayload,
 } from '@/types';
+import { defineStore } from 'pinia';
+import { computed, ref } from 'vue';
+import api, { getToken, setToken } from '@/lib/api';
 
 export const useAuthStore = defineStore('auth', () => {
     const token = ref<string | null>(getToken());
@@ -40,6 +40,7 @@ export const useAuthStore = defineStore('auth', () => {
     async function fetchMe(): Promise<void> {
         if (token.value === null) {
             ready.value = true;
+
             return;
         }
 
@@ -54,12 +55,35 @@ export const useAuthStore = defineStore('auth', () => {
         }
     }
 
+    /**
+     * Re-fetch the current user without tearing down the session on transient
+     * failures — used for background polling (e.g. the pending-approval page).
+     * A genuine 401 is handled by the axios interceptor, which clears the
+     * token; we mirror that here, but any other error leaves the session alone.
+     */
+    async function refreshUser(): Promise<void> {
+        if (token.value === null) {
+            return;
+        }
+
+        try {
+            const { data } = await api.get('/me');
+            user.value = data.data;
+        } catch {
+            if (getToken() === null) {
+                applyToken(null);
+                user.value = null;
+            }
+        }
+    }
+
     async function logout(): Promise<void> {
         try {
             await api.post('/logout');
         } catch {
             // Ignore — we clear the local session regardless.
         }
+
         applyToken(null);
         user.value = null;
     }
@@ -80,16 +104,19 @@ export const useAuthStore = defineStore('auth', () => {
 
     async function fetchNetworks(): Promise<NetworkOption[]> {
         const { data } = await api.get('/networks');
+
         return data.data;
     }
 
     async function fetchTickets(): Promise<Ticket[]> {
         const { data } = await api.get('/tickets');
+
         return data.data;
     }
 
     async function createTicket(message: string): Promise<Ticket> {
         const { data } = await api.post('/tickets', { message });
+
         return data.data;
     }
 
@@ -101,6 +128,7 @@ export const useAuthStore = defineStore('auth', () => {
         register,
         login,
         fetchMe,
+        refreshUser,
         logout,
         verifyEmail,
         resendCode,

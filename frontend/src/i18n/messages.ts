@@ -99,6 +99,8 @@ export const en = {
     'nav.transactions': 'Transactions',
     'nav.statistics': 'Statistics',
     'nav.logout': 'Log out',
+    'nav.openMenu': 'Open menu',
+    'nav.closeMenu': 'Close menu',
 
     // Password input
     'password.show': 'Show password',
@@ -200,6 +202,8 @@ export const ru: Record<MessageKey, string> = {
     'nav.transactions': 'Транзакции',
     'nav.statistics': 'Статистика',
     'nav.logout': 'Выйти',
+    'nav.openMenu': 'Открыть меню',
+    'nav.closeMenu': 'Закрыть меню',
 
     // Password input
     'password.show': 'Показать пароль',

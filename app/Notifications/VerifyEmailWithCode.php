@@ -47,12 +47,15 @@ class VerifyEmailWithCode extends Notification
             $message->from($brand->fromAddress(), $brand->fromName());
         }
 
+        // A dedicated Blade view so the whole email — header, footer, title and
+        // salutation, not just the body — is branded to $name rather than the
+        // global app name (which is "Stake").
         return $message
             ->subject($name.' — verification code')
-            ->greeting('Confirm your email')
-            ->line('Your '.$name.' verification code is:')
-            ->line('**'.$code.'**')
-            ->line('The code is valid for '.EmailVerificationCode::TTL_MINUTES.' minutes.')
-            ->line('If you did not register, you can safely ignore this email.');
+            ->markdown('mail.verification-code', [
+                'brandName' => $name,
+                'code' => $code,
+                'ttl' => EmailVerificationCode::TTL_MINUTES,
+            ]);
     }
 }
